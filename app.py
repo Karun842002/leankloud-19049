@@ -46,9 +46,9 @@ class TodoDAO(object):
 
 
 DAO = TodoDAO()
-DAO.create({'task': 'Build an API'})
-DAO.create({'task': '?????'})
-DAO.create({'task': 'profit!'})
+DAO.create({'task': 'Build an API', 'dueby': '2021-12-10T13:49:51.141Z', 'status': 'Not Started'})
+DAO.create({'task': '?????', 'dueby': '2021-11-10T13:49:51.141Z', 'status': 'Not Started'})
+DAO.create({'task': 'profit!', 'dueby': '2021-10-10T13:49:51.141Z', 'status': 'Not Started'})
 
 
 @ns.route('/')
