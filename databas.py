@@ -26,3 +26,16 @@ def insert(todo):
     db.commit()
     cur.close()
     db.close()
+
+def getTodos():
+    #To update the server version of todo list
+    pass
+
+def update(todo):
+    #Update
+    pass
+
+def delete(todo):
+    #delete
+    pass
+
