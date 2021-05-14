@@ -1,12 +1,14 @@
 from flask import Flask
 from flask_restplus import Api, Resource, fields
 from werkzeug.middleware.proxy_fix import ProxyFix
+import databas
+databas.test()
 
 app = Flask(__name__)
 app.wsgi_app = ProxyFix(app.wsgi_app)
 api = Api(app, version='1.0', title='TodoMVC API',
-    description='A simple TodoMVC API',
-)
+          description='A simple TodoMVC API',
+          )
 
 ns = api.namespace('todos', description='TODO operations')
 
@@ -33,10 +35,12 @@ class TodoDAO(object):
         todo = data
         todo['id'] = self.counter = self.counter + 1
         self.todos.append(todo)
+        databas.insert(todo)
         return todo
 
     def update(self, id, data):
         todo = self.get(id)
+        print(todo)
         todo.update(data)
         return todo
 
@@ -46,9 +50,12 @@ class TodoDAO(object):
 
 
 DAO = TodoDAO()
-DAO.create({'task': 'Build an API', 'dueby': '2021-12-10T13:49:51.141Z', 'status': 'Not Started', 'type': 'status'})
-DAO.create({'task': '?????', 'dueby': '2021-11-10T13:49:51.141Z', 'status': 'Not Started'})
-DAO.create({'task': 'profit!', 'dueby': '2021-10-10T13:49:51.141Z', 'status': 'Not Started'})
+DAO.create({'task': 'Build an API', 'dueby': '2021-12-10T13:49:51.141Z',
+           'status': 'Not Started', 'type': 'status'})
+DAO.create({'task': '?????', 'dueby': '2021-11-10T13:49:51.141Z',
+           'status': 'Not Started'})
+DAO.create({'task': 'profit!', 'dueby': '2021-10-10T13:49:51.141Z',
+           'status': 'Not Started'})
 
 
 @ns.route('/')
