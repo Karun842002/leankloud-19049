@@ -12,7 +12,9 @@ ns = api.namespace('todos', description='TODO operations')
 
 todo = api.model('Todo', {
     'id': fields.Integer(readonly=True, description='The task unique identifier'),
-    'task': fields.String(required=True, description='The task details')
+    'task': fields.String(required=True, description='The task details'),
+    'dueby': fields.Date(required=True, description='The task date'),
+    'status': fields.String(required=True, description='The task status')
 })
 
 
