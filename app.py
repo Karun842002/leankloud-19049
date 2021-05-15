@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, request
 from flask_restplus import Api, Resource, fields
 from werkzeug.middleware.proxy_fix import ProxyFix
 from utils import TodoDAO
@@ -53,27 +53,27 @@ class Todo(Resource):
         return DAO.update(id, api.payload)
 
 @ns.route('/due')
-@ns.param('due_date','')
+@ns.expect(fields.String)
+@ns.param('due_date','due date')
 class DueList(Resource):
     @ns.doc('get_due_todo')
     @ns.marshal_list_with(todo)
-    def get(self, due_date):
-        return databas.due()
+    def get(self):
+        return databas.due(request.args["due_date"])
+        
 
-@ns.route('/due')
-@ns.param('due_date','')
+@ns.route('/overdue')
 class OverdueList(Resource):
-    @ns.doc('get_due_todo')
+    @ns.doc('overdue_todo')
     @ns.marshal_list_with(todo)
-    def get(self, due_date):
+    def get(self):
         return databas.overdue()
 
-@ns.route('/due')
-@ns.param('due_date','') 
+@ns.route('/finished')
 class FinishedList(Resource):
-    @ns.doc('get_due_todo')
+    @ns.doc('finished_todo')
     @ns.marshal_list_with(todo)
-    def get(self, due_date):
+    def get(self):
         return databas.finished()
 
 if __name__ == '__main__':

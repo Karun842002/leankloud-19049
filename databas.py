@@ -84,11 +84,53 @@ def delete(todo):
     cur.close()
     db.close()
 
-def due():
-    pass
+def due(due_date):
+    db = mysql.connector.connect(
+        host="us-cdbr-east-03.cleardb.com",
+        user="b785fbb89c1d88",
+        password="5872c3bf",
+        database="heroku_d100d1934e0d01d"
+    )
+    cur = db.cursor()
+    cur.execute("select * from todo where dueby=%s",[due_date])
+    res=[]
+    headers=['id','task','dueby','status']
+    for x in cur:
+        res.append(dict(zip(headers,x)))
+    cur.close()
+    db.close()
+    return res
 
 def overdue():
-    pass
+    db = mysql.connector.connect(
+        host="us-cdbr-east-03.cleardb.com",
+        user="b785fbb89c1d88",
+        password="5872c3bf",
+        database="heroku_d100d1934e0d01d"
+    )
+    cur = db.cursor()
+    cur.execute("select * from todo where dueby<curdate()")
+    res=[]
+    headers=['id','task','dueby','status']
+    for x in cur:
+        res.append(dict(zip(headers,x)))
+    cur.close()
+    db.close()
+    return res
 
 def finished():
-    pass
+    db = mysql.connector.connect(
+        host="us-cdbr-east-03.cleardb.com",
+        user="b785fbb89c1d88",
+        password="5872c3bf",
+        database="heroku_d100d1934e0d01d"
+    )
+    cur = db.cursor()
+    cur.execute("select * from todo where status='finished'")
+    res=[]
+    headers=['id','task','dueby','status']
+    for x in cur:
+        res.append(dict(zip(headers,x)))
+    cur.close()
+    db.close()
+    return res
