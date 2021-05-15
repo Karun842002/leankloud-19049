@@ -28,14 +28,67 @@ def insert(todo):
     db.close()
 
 def getTodos():
-    #To update the server version of todo list
-    pass
+    db = mysql.connector.connect(
+        host="us-cdbr-east-03.cleardb.com",
+        user="b785fbb89c1d88",
+        password="5872c3bf",
+        database="heroku_d100d1934e0d01d"
+    )
+    cur = db.cursor()
+    cur.execute("select * from todo")
+    headers=['id','task','dueby','status']
+    res=[]
+    for x in cur:
+        res.append(dict(zip(headers,x)))
+    cur.close()
+    db.close()
+    return res
 
 def update(todo):
-    #Update
-    pass
+    db = mysql.connector.connect(
+        host="us-cdbr-east-03.cleardb.com",
+        user="b785fbb89c1d88",
+        password="5872c3bf",
+        database="heroku_d100d1934e0d01d"
+    )
+    
+    if "task" in todo.keys():
+        cur = db.cursor()
+        val=[todo["task"],todo["id"]]
+        cur.execute("update todo set task=%s where id=%s",val)
+        cur.close()
+    
+    if "dueby" in todo.keys():
+        cur = db.cursor()
+        val=[todo["dueby"],todo["id"]]
+        cur.execute("update todo set dueby=%s where id=%s",val)
+        cur.close()
+    
+    if "status" in todo.keys():
+        cur = db.cursor()
+        val=[todo["status"],todo["id"]]
+        cur.execute("update todo set status=%s where id=%s",val)
+        cur.close()
+    db.close()
 
 def delete(todo):
-    #delete
+    db = mysql.connector.connect(
+        host="us-cdbr-east-03.cleardb.com",
+        user="b785fbb89c1d88",
+        password="5872c3bf",
+        database="heroku_d100d1934e0d01d"
+    )
+    cur = db.cursor()
+    val=[todo["id"]]
+    cur.execute("delete from todo where id=%s",val)
+    cur.close()
+    db.close()
+
+def due():
     pass
 
+def overdue():
+    pass
+
+def finished():
+    pass

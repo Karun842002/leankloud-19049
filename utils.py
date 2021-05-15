@@ -9,7 +9,6 @@ class TodoDAO(object):
         for todo in self.todos:
             if todo['id'] == id:
                 return todo
-        api.abort(404, "Todo {} doesn't exist".format(id))
 
     def create(self, data):
         todo = data

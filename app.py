@@ -2,6 +2,7 @@ from flask import Flask
 from flask_restplus import Api, Resource, fields
 from werkzeug.middleware.proxy_fix import ProxyFix
 from utils import TodoDAO
+import databas
 
 app = Flask(__name__)
 app.wsgi_app = ProxyFix(app.wsgi_app)
@@ -16,10 +17,6 @@ todo = api.model('Todo', {
 
 
 DAO = TodoDAO()
-DAO.create({'task': 'Build an API', 'dueby': '2021-12-10T13:49:51.141Z', 'status': 'Not Started', 'type': 'status'})
-DAO.create({'task': '?????', 'dueby': '2021-11-10T13:49:51.141Z', 'status': 'Not Started'})
-DAO.create({'task': 'profit!', 'dueby': '2021-10-10T13:49:51.141Z', 'status': 'Not Started'})
-
 
 @ns.route('/')
 class TodoList(Resource):
@@ -55,6 +52,29 @@ class Todo(Resource):
     def put(self, id):
         return DAO.update(id, api.payload)
 
+@ns.route('/due')
+@ns.param('due_date','')
+class DueList(Resource):
+    @ns.doc('get_due_todo')
+    @ns.marshal_list_with(todo)
+    def get(self, due_date):
+        return databas.due()
+
+@ns.route('/due')
+@ns.param('due_date','')
+class OverdueList(Resource):
+    @ns.doc('get_due_todo')
+    @ns.marshal_list_with(todo)
+    def get(self, due_date):
+        return databas.overdue()
+
+@ns.route('/due')
+@ns.param('due_date','') 
+class FinishedList(Resource):
+    @ns.doc('get_due_todo')
+    @ns.marshal_list_with(todo)
+    def get(self, due_date):
+        return databas.finished()
 
 if __name__ == '__main__':
     app.run()
